@@ -1,7 +1,3 @@
-provider "google" {
-  project = "sailor-321711"
-  region  = "asia-southeast1"
-}
 terraform {
   required_version = ">=0.13"
 

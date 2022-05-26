@@ -1,16 +1,18 @@
 resource "google_pubsub_lite_reservation" "example" {
-  name                = var.reservation
-  project             = var.project_id
-  throughput_capacity = var.throughput_capacity
-  region              = var.region
+  name                 = var.reservation
+  project              = var.project_id
+  throughput_capacity  = var.throughput_capacity
+  region               = var.region
 }
+
 resource "google_pubsub_lite_subscription" "example" {
-  name   = var.subscription
-  topic  = var.topic
-  zone   = var.zone
-  region = var.region
+  name    = var.subscription
+  project = var.project_id
+  topic   = var.topic
+  zone    = var.zone
+  region  = var.region
   delivery_config {
-    delivery_requirement = "DELIVER_AFTER_STORED"
+    delivery_requirement = var.delivery_requirement
   }
   depends_on = [
     google_pubsub_lite_topic.example
@@ -18,21 +20,21 @@ resource "google_pubsub_lite_subscription" "example" {
 }
 
 resource "google_pubsub_lite_topic" "example" {
-  name    = var.topic
-  zone    = var.zone
-  region  = var.region
-  project = var.project_id
+  name     = var.topic
+  zone     = var.zone
+  region   = var.region
+  project  = var.project_id
 
   partition_config {
-    count = 1
+    count = var.count
     capacity {
-      publish_mib_per_sec   = 4
-      subscribe_mib_per_sec = 8
+      publish_mib_per_sec   = var.publish_mib_per_sec
+      subscribe_mib_per_sec = var.subscribe_mib_per_sec
     }
   }
 
   retention_config {
-    per_partition_bytes = 32212254720
+    per_partition_bytes = var.per_partition_bytes
   }
 
   reservation_config {
