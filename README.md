@@ -1,2 +1,2 @@
 # terraform-google-pubsub-lite
-PubSub Lite module
+The repository will contain the terraform module code for Google PubSub Lite.
