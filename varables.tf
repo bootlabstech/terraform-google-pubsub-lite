@@ -27,28 +27,28 @@ variable "throughput_capacity" {
   type        = number
   description = "The reserved throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages."
 }
-variable "delivery_requirement" {
-  type        = list(object({
-    delivery_requirement = string
-  }))
-  description = "When this subscription should send messages to subscribers relative to messages persistence in storage. Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, and DELIVERY_REQUIREMENT_UNSPECIFIED"
-  default = [ ]
-}
-variable "per_partition_bytes" {
-  type        = list(object({
-    per_partition_bytes = number
-  }))
-  description = "The provisioned storage, in bytes, per partition"
-  default = []
-}
+
 variable "partition_config_count" {
-  type        = map(object({
-    partition_config_count = number
-    capacity = object({
-      publish_mib_per_sec   = number
-      subscribe_mib_per_sec = number
-    })
-  }))
-  description = "The number of partitions in the topic. Must be at least 1"
-  default = {}  
+  type        = number
+  description = "The number of partitions in the topic. Must be at least 1."
+}
+
+variable "publish_mib_per_sec" {
+  type        = number
+  description = "Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16."
+}
+
+variable "subscribe_mib_per_sec" {
+  type        = number
+  description = "Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16."
+}
+
+variable "per_partition_bytes" {
+  type        = number
+  description = "The provisioned storage, in bytes, per partition. If the number of bytes stored in any of the topic's partitions grows beyond this value, older messages will be dropped to make room for newer ones, regardless of the value of period."
+}
+
+variable "delivery_requirement" {
+  type        = string
+  description = "When this subscription should send messages to subscribers relative to messages persistence in storage. Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, and DELIVERY_REQUIREMENT_UNSPECIFIED"
 }
