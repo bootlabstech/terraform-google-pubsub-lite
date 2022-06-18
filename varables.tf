@@ -1,4 +1,4 @@
-variable "name_reservation" {
+variable "reservation_name" {
   type        = string
   description = "The pubsub_lite_reservation name"
 }
@@ -6,7 +6,7 @@ variable "project_id" {
   type        = string
   description = " The ID of the project in which the resource belongs"
 }
-variable "name_topic" {
+variable "topic_name" {
   type        = string
   description = "The pubsub_lite topic name"
 }
@@ -18,7 +18,7 @@ variable "zone" {
   type        = string
   description = "name of the zone"
 }
-variable "name_subscription" {
+variable "subscription_name" {
   type        = string
   description = "name of the subscription"
 }
