@@ -48,6 +48,9 @@ resource "google_pubsub_lite_subscription" "subscription" {
       delivery_requirement = var.delivery_requirement
     }
   }
+  depends_on = [
+    google_pubsub_lite_topic.topic
+  ]
 }
 
 
