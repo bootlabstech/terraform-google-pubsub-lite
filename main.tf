@@ -1,30 +1,37 @@
-resource "google_pubsub_lite_reservation" "example" {
+resource "google_pubsub_lite_reservation" "reservation" {
   name                = var.reservation
   project             = var.project_id
   throughput_capacity = var.throughput_capacity
   region              = var.region
 }
 
-resource "google_pubsub_lite_topic" "example" {
+resource "google_pubsub_lite_topic" "topic" {
   name    = var.topic
   zone    = var.zone
   region  = var.region
   project = var.project_id
 
-  partition_config {
-    count = var.partition_config_count
-    capacity {
-      publish_mib_per_sec   = var.publish_mib_per_sec
-      subscribe_mib_per_sec = var.subscribe_mib_per_sec
+  dynamic "partition_config" {
+    for_each = var.enable_partition_config ? [{}] : []
+    content {
+      count = var.partition_config_count
+      capacity {
+        publish_mib_per_sec   = var.publish_mib_per_sec
+        subscribe_mib_per_sec = var.subscribe_mib_per_sec
+      }
     }
   }
-
-  retention_config {
-    per_partition_bytes = var.per_partition_bytes
+  dynamic "retention_config" {
+    for_each = var.enable_retention_config ? [{}] : []
+    content {
+      per_partition_bytes = var.per_partition_bytes
+    }
   }
-
-  reservation_config {
-    throughput_reservation = google_pubsub_lite_reservation.example.name
+  dynamic "reservation_config" {
+    for_each = var.enable_reservation_config ? [{}] : []
+    content {
+      throughput_reservation = google_pubsub_lite_reservation.reservation.name
+    }
   }
 
   depends_on = [
@@ -32,19 +39,22 @@ resource "google_pubsub_lite_topic" "example" {
   ]
 }
 
-resource "google_pubsub_lite_subscription" "example" {
+resource "google_pubsub_lite_subscription" "subscription" {
   project = var.project_id
   name    = var.subscription
   topic   = var.topic
   zone    = var.zone
   region  = var.region
 
-  delivery_config {
-    delivery_requirement = var.delivery_requirement
+  dynamic "delivery_config" {
+    for_each = var.enable_delivery_config ? [{}] : []
+    content {
+      delivery_requirement = var.delivery_requirement
+    }
   }
 
   depends_on = [
-    google_pubsub_lite_topic.example
+    google_pubsub_lite_topic.topic
   ]
 }
 
