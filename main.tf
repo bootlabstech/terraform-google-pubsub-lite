@@ -1,12 +1,12 @@
 resource "google_pubsub_lite_reservation" "reservation" {
-  name                = var.reservation
+  name                = var.name_reservation
   project             = var.project_id
   throughput_capacity = var.throughput_capacity
   region              = var.region
 }
 
 resource "google_pubsub_lite_topic" "topic" {
-  name    = var.topic
+  name    = var.name_topic
   zone    = var.zone
   region  = var.region
   project = var.project_id
@@ -37,7 +37,7 @@ resource "google_pubsub_lite_topic" "topic" {
 
 resource "google_pubsub_lite_subscription" "subscription" {
   project = var.project_id
-  name    = var.subscription
+  name    = var.name_subscription
   topic   = var.topic
   zone    = var.zone
   region  = var.region
