@@ -38,7 +38,7 @@ resource "google_pubsub_lite_topic" "topic" {
 resource "google_pubsub_lite_subscription" "subscription" {
   project = var.project_id
   name    = var.subscription_name
-  topic   = var.topic
+  topic   = var.topic_name
   zone    = var.zone
   region  = var.region
 
