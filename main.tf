@@ -33,10 +33,6 @@ resource "google_pubsub_lite_topic" "topic" {
       throughput_reservation = google_pubsub_lite_reservation.reservation.name
     }
   }
-
-  depends_on = [
-    google_pubsub_lite_reservation.example
-  ]
 }
 
 resource "google_pubsub_lite_subscription" "subscription" {
@@ -52,10 +48,6 @@ resource "google_pubsub_lite_subscription" "subscription" {
       delivery_requirement = var.delivery_requirement
     }
   }
-
-  depends_on = [
-    google_pubsub_lite_topic.topic
-  ]
 }
 
 
